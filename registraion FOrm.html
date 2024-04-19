@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task Manager</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    #task-input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+    #task-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .task-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+    .task-item.completed {
+        text-decoration: line-through;
+        opacity: 0.6;
+    }
+    .task-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    .delete-button {
+        background-color: #FF5733;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .delete-button:hover {
+        background-color: #D1480A;
+    }
+</style>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    <input type="text" id="task-input" placeholder="Add a new task...">
+    <ul id="task-list"></ul>
+
+    <script>
+        const taskInput = document.getElementById('task-input');
+        const taskList = document.getElementById('task-list');
+
+        taskInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && taskInput.value.trim() !== '') {
+                addTask(taskInput.value.trim());
+                taskInput.value = '';
+            }
+        });
+
+        function addTask(taskName) {
+            const taskItem = document.createElement('li');
+            taskItem.className = 'task-item';
+            taskItem.innerHTML = `
+                <span>${taskName}</span>
+                <div class="task-buttons">
+                    <button onclick="toggleComplete(this)">Done</button>
+                    <button class="delete-button" onclick="deleteTask(this)">Delete</button>
+                </div>
+            `;
+            taskList.appendChild(taskItem);
+        }
+
+        function toggleComplete(button) {
+            const taskItem = button.closest('.task-item');
+            taskItem.classList.toggle('completed');
+        }
+
+        function deleteTask(button) {
+            const taskItem = button.closest('.task-item');
+            taskList.removeChild(taskItem);
+        }
+    </script>
+</body>
+</html>
